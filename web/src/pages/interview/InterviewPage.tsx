@@ -248,8 +248,8 @@ export default function InterviewPage() {
   return (
     <div className="max-w-xl mx-auto px-4 flex flex-col h-full">
       {/* Top bar */}
-      <div className="flex items-center justify-between py-3 border-b sticky top-12 bg-white z-10">
-        <span className="text-sm font-medium">AI Interview</span>
+      <div className="flex items-center justify-between py-3 border-b border-slate-800 sticky top-14 bg-slate-950/90 backdrop-blur-md z-10">
+        <span className="text-sm font-semibold text-slate-200">AI Voice Assessment</span>
         {candidateInfo && (
           <InterviewTimer
             totalSeconds={candidateInfo.time_limit_min * 60}
@@ -258,6 +258,7 @@ export default function InterviewPage() {
           />
         )}
       </div>
+
 
       {/* Reconnecting banner */}
       {interviewState === "reconnecting" && (
@@ -320,7 +321,8 @@ export default function InterviewPage() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t py-3 flex items-center justify-between gap-4 sticky bottom-0 bg-white">
+      <div className="border-t border-slate-800 py-3 flex items-center justify-between gap-4 sticky bottom-0 bg-slate-950/90 backdrop-blur-md">
+
         <ConnectionStatus state={wsConnectionStatus} />
 
         <div className="flex items-center gap-3">
