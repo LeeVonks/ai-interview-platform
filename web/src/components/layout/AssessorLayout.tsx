@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { tenantAtom } from "@/stores/tenantAtom";
 import { authAtom, clearToken } from "@/stores/authAtom";
 import { Button } from "@/components/ui/button";
-import { ClipboardList, Briefcase, LogOut, Sparkles } from "lucide-react";
+import { ClipboardList, Briefcase, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -29,12 +29,14 @@ export default function AssessorLayout() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-slate-950/85 border-b border-border/60 shadow-2xs transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link to="/assessments" className="flex items-center gap-2 font-bold text-base tracking-tight hover:opacity-90 transition-opacity">
-              <div className="h-8 w-8 rounded-lg bg-teal-600 dark:bg-teal-500 text-white flex items-center justify-center shadow-xs">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              <span className="bg-gradient-to-r from-teal-700 to-teal-900 dark:from-teal-300 dark:to-teal-100 bg-clip-text text-transparent">
-                Rakamin AI Interview
+            <Link to="/assessments" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+              <img
+                src="/rakamin-logo.png"
+                alt="Rakamin Logo"
+                className="h-6 object-contain"
+              />
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-950 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                AI Interview
               </span>
             </Link>
             <nav className="flex items-center gap-1">

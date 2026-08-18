@@ -6,7 +6,7 @@ import { authApi } from "@/services/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { Loader2, Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -58,17 +58,23 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md mx-4 z-10">
         <div className="backdrop-blur-2xl bg-white/10 dark:bg-slate-900/60 border border-white/20 dark:border-slate-800/80 shadow-2xl rounded-3xl p-8 space-y-6">
           
-          {/* Header & Branding */}
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-teal-500/20 border border-teal-400/30 text-teal-300 shadow-inner mb-1">
-              <Sparkles className="h-7 w-7" />
+          {/* Header & Branding with Official Rakamin Logo */}
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-white/90 shadow-lg border border-white/40 mb-1">
+              <img
+                src="/rakamin-logo.png"
+                alt="Rakamin Logo"
+                className="h-9 object-contain"
+              />
             </div>
-            <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-teal-200 bg-clip-text text-transparent">
-              Rakamin AI Interview
-            </h1>
-            <p className="text-xs text-slate-400 font-medium">
-              Enterprise Candidate Competency &amp; Fit/Gap Platform
-            </p>
+            <div>
+              <h1 className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-teal-200 bg-clip-text text-transparent">
+                AI Evaluation Platform
+              </h1>
+              <p className="text-xs text-slate-400 font-medium mt-1">
+                Enterprise Candidate Competency &amp; Fit/Gap Assessment
+              </p>
+            </div>
           </div>
 
           {/* Quick Demo Credentials Fill Button */}
@@ -137,7 +143,7 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium animate-shake">
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium">
                 {error}
               </div>
             )}
