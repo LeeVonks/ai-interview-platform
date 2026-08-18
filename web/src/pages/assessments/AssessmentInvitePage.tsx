@@ -55,42 +55,41 @@ function SessionRow({
 
       <div className="flex items-center gap-3">
         {isPending && (
-          <span className="flex items-center gap-1 text-xs text-amber-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            Awaiting candidate
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            Awaiting Candidate
           </span>
         )}
         {isLive && (
-          <span className="flex items-center gap-1 text-xs text-primary">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Live
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-300 border border-teal-200 dark:border-teal-800 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
+            Live Now
           </span>
         )}
         {isEnded && session.end_reason === "error" && (
-          <span className="flex items-center gap-1 text-xs text-destructive">
-            <span className="w-1.5 h-1.5 rounded-full bg-destructive" />
-            Failed
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5">
+            Session Ended
           </span>
         )}
         {isEnded && session.end_reason !== "error" && (
-          <span className="flex items-center gap-1 text-xs text-green-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1.5">
+            <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
             Completed
           </span>
         )}
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           {isPending && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="h-7 px-2 text-xs"
+              className="h-8 px-2.5 text-xs font-semibold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
               onClick={() => onCopy(session.id)}
             >
               {copiedId === session.id ? (
-                <><Check className="h-3 w-3 mr-1" /> Copied</>
+                <><Check className="h-3.5 w-3.5 mr-1 text-emerald-600" /> Copied</>
               ) : (
-                <><Copy className="h-3 w-3 mr-1" /> Copy link</>
+                <><Copy className="h-3.5 w-3.5 mr-1" /> Copy link</>
               )}
             </Button>
           )}
@@ -98,25 +97,26 @@ function SessionRow({
             <Button
               variant="outline"
               size="sm"
-              className="h-7 px-2 text-xs"
+              className="h-8 px-2.5 text-xs font-semibold bg-teal-50/50 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800 hover:bg-teal-100 dark:hover:bg-teal-900/40"
               onClick={() => navigate(`/assessments/${assessmentId}/sessions/${session.id}/monitor`)}
             >
-              <Eye className="h-3 w-3 mr-1" /> Monitor
+              <Eye className="h-3.5 w-3.5 mr-1 text-teal-600" /> Monitor Live
             </Button>
           )}
-          {isEnded && session.end_reason !== "error" && (
+          {isEnded && (
             <Button
               variant="outline"
               size="sm"
-              className="h-7 px-2 text-xs"
+              className="h-8 px-3 text-xs font-semibold text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-teal-50 dark:hover:bg-teal-950/50 hover:text-teal-700 dark:hover:text-teal-300 hover:border-teal-300 shadow-2xs"
               onClick={() => navigate(`/assessments/${assessmentId}/sessions/${session.id}/portfolio`)}
             >
-              Results
+              View Results
             </Button>
           )}
         </div>
       </div>
     </div>
+
   );
 }
 
