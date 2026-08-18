@@ -202,14 +202,18 @@ export default function InterviewPage() {
 
         {!hardwareCheckDone ? (
           <div className="space-y-4">
-            <div className="bg-muted/50 rounded-lg p-4 text-sm space-y-1.5 text-muted-foreground">
-              <p>• This is a voice interview. Make sure you're in a quiet place.</p>
-              <p>• The AI will ask follow-up questions — there are no scripts.</p>
-              <p>• The session will last up to {candidateInfo?.time_limit_min ?? "—"} minutes.</p>
-              <p>• Your mic will be active throughout. You can end anytime.</p>
+            <div className="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-5 text-xs text-slate-200 space-y-2 shadow-xl backdrop-blur-md">
+              <p className="flex items-center gap-2 text-teal-300 font-semibold mb-1">
+                <span>🎙️</span> Voice Assessment Instructions:
+              </p>
+              <p className="text-slate-300">• This is an interactive voice interview. Please ensure you are in a quiet environment.</p>
+              <p className="text-slate-300">• The AI will ask relevant follow-up questions — there are no fixed rigid scripts.</p>
+              <p className="text-slate-300">• The session will last up to <strong className="text-teal-300">{candidateInfo?.time_limit_min ?? "—"} minutes</strong>.</p>
+              <p className="text-slate-300">• Your microphone will remain active throughout. You can complete or end anytime.</p>
             </div>
             <HardwareCheck onStart={() => { setHardwareCheckDone(true); startInterview(); }} />
           </div>
+
         ) : (
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-2.5">
