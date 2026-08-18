@@ -103,13 +103,14 @@ class AudioWebSocketMiddleware
     session = state.session
 
     api_key = ENV['GEMINI_API_KEY']
-    if api_key.blank? || api_key == 'your_gemini_api_key'
-      Rails.logger.error("[AudioWS] Gemini API Key is missing or set to default placeholder 'your_gemini_api_key'")
+    if api_key.blank? || api_key == 'your_gemini_api_key' || !api_key.start_with?('AIzaSy')
+      Rails.logger.error("[AudioWS] Gemini API Key is invalid or not an AI Studio key (must start with 'AIzaSy...')")
       send_json(browser_ws, type: 'error', code: 'invalid_api_key',
-                            message: 'Gemini API key is not configured in api/config/application.yml', recoverable: false)
+                            message: 'Gemini API Key must be a valid Google AI Studio key starting with AIzaSy...', recoverable: false)
       browser_ws.close
       return
     end
+
 
     ensure_system_prompt(session)
 
