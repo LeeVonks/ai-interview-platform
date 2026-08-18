@@ -407,19 +407,91 @@ Test Files  1 passed (1) | Tests  2 passed (2)
 
   <div class="page-break"></div>
 
-  <!-- Section 7: UI/UX & Flow Walkthrough Narrative -->
+  <!-- Section 7: End-to-End User Flow Narrative & Video Walkthrough Screenshots -->
   <div class="section">
-    <div class="section-title"><span class="number">07</span> UI/UX Revamp & User Flow Narrative</div>
+    <div class="section-title"><span class="number">07</span> End-to-End User Flow Narrative (Login hingga Logout)</div>
     <p>
-      Penataan ulang antarmuka (<em>UI/UX Revamp</em>) dilakukan secara menyeluruh tanpa mengandalkan gambar eksternal, melainkan berfokus pada hierarki visual, kontras tinggi, dan efek <em>glassmorphism</em>:
+      Berikut adalah alur perjalanan pengguna (<em>End-to-End User Flow Narrative</em>) secara lengkap dan runtut, mulai dari otentikasi awal, manajemen asesmen, wawancara kandidat, evaluasi AI, hingga terminasi sesi/logout:
     </p>
-    <ul>
-      <li><strong>Dashboard Admin & Navigasi Header:</strong> Menggunakan <em>frozen glassmorphism</em> (<code>backdrop-blur-xl bg-white/75</code>) dengan tinggi header <code>h-20</code> (80px), tab menu <em>active pill</em> berwarna teal, serta indikator tenant yang menonjol.</li>
-      <li><strong>Manajemen Undangan Kandidat:</strong> Menyediakan modal input nama dan email kandidat yang dilengkapi validasi format otomatis, serta tabel status sesi yang menampilkan email kandidat secara rapi.</li>
-      <li><strong>Antarmuka Wawancara Kandidat:</strong> Tombol status mikrofon "Mic On" didesain dengan kontras sangat tinggi menggunakan badge emerald (<code>bg-emerald-950/80 text-emerald-300</code>) dan animasi dot menyala.</li>
-      <li><strong>Halaman Hasil Portofolio:</strong> Subtitle header menampilkan Nama & Email Kandidat secara langsung berdampingan dengan opsi ekspor PDF dan rekap skor kompetensi skill AI.</li>
-    </ul>
+
+    <!-- Step 1: Login -->
+    <div class="image-container">
+      <img src="report_assets/step1_login.png" alt="Step 1: Login Page">
+      <div class="image-caption">Langkah 1: Halaman Autentikasi Login Assessor / Recruiter (Email & Password aman).</div>
+    </div>
+    <p>
+      <strong>Langkah 1 — Autentikasi Login Assessor & Recruiter:</strong><br>
+      Pengguna (Recruiter/Assessor) melakukan login menggunakan kredensial terotentikasi. Sistem memvalidasi akun, menginisialisasi sesi terisolasi berbasis <code>tenant_id</code>, dan menyimpan JWT token aman.
+    </p>
+
+    <!-- Step 2: Assessments Dashboard -->
+    <div class="image-container">
+      <img src="report_assets/step2_assessments_dashboard.png" alt="Step 2: Assessments Dashboard">
+      <div class="image-caption">Langkah 2: Dashboard Assessor dengan Navigasi Header Frozen Glassmorphism (h-20) & Tab Menu Active Pill.</div>
+    </div>
+    <p>
+      <strong>Langkah 2 — Dashboard Utama Assessor:</strong><br>
+      Setelah berhasil login, Assessor diarahkan ke Dashboard Asesmen yang dilengkapi header <em>frozen glassmorphism</em> (<code>backdrop-blur-xl bg-white/75</code>, tinggi <code>h-20</code>), tab menu navigasi aktif, dan daftar seluruh modul wawancara yang tersedia.
+    </p>
+
+    <!-- Step 3: New Assessment Creation -->
+    <div class="image-container">
+      <img src="report_assets/step3_new_assessment.png" alt="Step 3: New Assessment Page">
+      <div class="image-caption">Langkah 3: Form Konfigurasi Asesmen Baru (Nama, Batas Waktu, Bahasa, dan Skill Radar L1-L5).</div>
+    </div>
+    <p>
+      <strong>Langkah 3 — Konfigurasi & Pembuatan Asesmen Baru:</strong><br>
+      Assessor menentukan spesifikasi asesmen baru: nama posisi pekerjaan, durasi wawancara (menit), bahasa pengantar (Bahasa Indonesia / Inggris), serta memilih deretan skill teknis beserta target ekspektasi level kompetensi (L1 hingga L5).
+    </p>
+
+    <div class="page-break"></div>
+
+    <!-- Step 4: Candidate Invite -->
+    <div class="image-container">
+      <img src="report_assets/step4_invite_candidate.png" alt="Step 4: Invite Candidate Modal">
+      <div class="image-caption">Langkah 4: Modal Undangan Kandidat dengan Pengisian Wajib Nama Lengkap & Email (Kepatuhan UU PDP).</div>
+    </div>
+    <p>
+      <strong>Langkah 4 — Penyiapan Sesi Undangan Kandidat (Penyimpanan Nama & Email):</strong><br>
+      Assessor membuka modal *"Undang Kandidat"*. Pada tahap ini, pengisian **Nama Lengkap** dan **Email Kandidat** diwajibkan (<em>mandatory</em>) dengan validasi format RFC email. Sistem menghasilkan <em>invite link</em> unik (<code>/interview/:token</code>) untuk kandidat dan merekam data identitas kandidat untuk keperluan screening rekrutmen.
+    </p>
+
+    <!-- Step 5: Candidate Interview -->
+    <div class="image-container">
+      <img src="report_assets/step5_candidate_interview.png" alt="Step 5: Candidate Live Audio Interview">
+      <div class="image-caption">Langkah 5: Antarmuka Wawancara Kandidat Real-Time AI Gemini dengan Tombol "Mic On" High-Contrast Emerald Badge.</div>
+    </div>
+    <p>
+      <strong>Langkah 5 — Sesi Wawancara Audio Real-Time Kandidat:</strong><br>
+      Kandidat membuka link undangan dan memulai wawancara audio AI interaktif. AI Gemini berkomunikasi secara dua arah menggunakan WebSocket endpoint <code>v1alpha</code> BidiGenerateContent. Antarmuka kandidat dilengkapi indikator status mikrofon "Mic On" kontras tinggi (<code>bg-emerald-950/80 text-emerald-300</code>) dan visualisasi gelombang suara live.
+    </p>
+
+    <!-- Step 6: Portfolio Results -->
+    <div class="image-container">
+      <img src="report_assets/step6_portfolio_results.png" alt="Step 6: Portfolio Results Page">
+      <div class="image-caption">Langkah 6: Halaman Hasil Portofolio AI Gemini dengan Rekap Identitas Kandidat, Skor Kompetensi, & Ekspor PDF.</div>
+    </div>
+    <p>
+      <strong>Langkah 6 — Evaluasi Portofolio Skill AI & Penilaian Assessor:</strong><br>
+      Setelah wawancara selesai, sistem secara otomatis mengevaluasi hasil percakapan menggunakan model AI REST <code>gemini-3.6-flash</code>. Assessor dapat melihat skor kemampuan per skill, kutipan ucapan kandidat, memberikan penyesuaian nilai (<em>assessor override</em>), serta mengunduh hasil dalam bentuk dokumen PDF.
+    </p>
+
+    <!-- Step 7: Fit/Gap Analysis -->
+    <div class="image-container">
+      <img src="report_assets/step7_fitgap_analysis.png" alt="Step 7: Fit/Gap Analysis">
+      <div class="image-caption">Langkah 7: Analisis Kesesuaian Posisi Pekerjaan (Fit/Gap Matching Report) Kandidat terhadap Syarat Vacancy.</div>
+    </div>
+    <p>
+      <strong>Langkah 7 — Analisis Kesesuaian Posisi Pekerjaan (Fit/Gap Match):</strong><br>
+      Assessor membandingkan profil kompetensi kandidat terhadap syarat posisi pekerjaan tertentu (<em>vacancy</em>). Sistem menghitung skor kesesuaian (<em>Fit Percentage</em>) dan menampilkan analisis keunggulan serta area pengembangan kandidat.
+    </p>
+
+    <p>
+      <strong>Langkah 8 — Terminisasi Sesi & Logout Aman:</strong><br>
+      Setelah seluruh rangkaian seleksi dan evaluasi selesai, Assessor menekan tombol *Logout* pada header navigasi. Sistem menghapus token otentikasi lokal (JWT session) secara aman untuk mencegah akses tanpa izin.
+    </p>
   </div>
+
 
 
   <!-- Section 8: Final Pull Request & Submission Links -->
