@@ -407,30 +407,20 @@ Test Files  1 passed (1) | Tests  2 passed (2)
 
   <div class="page-break"></div>
 
-  <!-- Section 7: Visual Screenshots & Flow Walkthrough -->
+  <!-- Section 7: UI/UX & Flow Walkthrough Narrative -->
   <div class="section">
-    <div class="section-title"><span class="number">07</span> Visual Screenshots & UI/UX Walkthrough</div>
-
-    <div class="image-container">
-      <img src="report_assets/assessments_list.png" alt="Admin Assessments List UI">
-      <div class="image-caption">Gambar 1: Tampilan Dashboard Admin Asesmen dengan Navigation Bar Frozen Glassmorphism (h-20) dan Tab Pill Active.</div>
-    </div>
-
-    <div class="image-container">
-      <img src="report_assets/assessment_detail.png" alt="Assessment Detail & Invite Candidate">
-      <div class="image-caption">Gambar 2: Halaman Manajemen Undangan Kandidat lengkap dengan daftar Nama, Email, dan Status Sesi.</div>
-    </div>
-
-    <div class="image-container">
-      <img src="report_assets/interview_page.png" alt="Candidate Live Interview UI">
-      <div class="image-caption">Gambar 3: Antarmuka Wawancara Kandidat dengan Tombol "Mic On" High-Contrast Emerald Badge dan Radar Audio Live.</div>
-    </div>
-
-    <div class="image-container">
-      <img src="report_assets/portfolio_page.png" alt="Portfolio Evaluation Results">
-      <div class="image-caption">Gambar 4: Hasil Evaluasi Portofolio Skill Kandidat AI Gemini dengan Rekap Kompetensi dan Opsi Ekspor PDF.</div>
-    </div>
+    <div class="section-title"><span class="number">07</span> UI/UX Revamp & User Flow Narrative</div>
+    <p>
+      Penataan ulang antarmuka (<em>UI/UX Revamp</em>) dilakukan secara menyeluruh tanpa mengandalkan gambar eksternal, melainkan berfokus pada hierarki visual, kontras tinggi, dan efek <em>glassmorphism</em>:
+    </p>
+    <ul>
+      <li><strong>Dashboard Admin & Navigasi Header:</strong> Menggunakan <em>frozen glassmorphism</em> (<code>backdrop-blur-xl bg-white/75</code>) dengan tinggi header <code>h-20</code> (80px), tab menu <em>active pill</em> berwarna teal, serta indikator tenant yang menonjol.</li>
+      <li><strong>Manajemen Undangan Kandidat:</strong> Menyediakan modal input nama dan email kandidat yang dilengkapi validasi format otomatis, serta tabel status sesi yang menampilkan email kandidat secara rapi.</li>
+      <li><strong>Antarmuka Wawancara Kandidat:</strong> Tombol status mikrofon "Mic On" didesain dengan kontras sangat tinggi menggunakan badge emerald (<code>bg-emerald-950/80 text-emerald-300</code>) dan animasi dot menyala.</li>
+      <li><strong>Halaman Hasil Portofolio:</strong> Subtitle header menampilkan Nama & Email Kandidat secara langsung berdampingan dengan opsi ekspor PDF dan rekap skor kompetensi skill AI.</li>
+    </ul>
   </div>
+
 
   <!-- Section 8: Final Pull Request & Submission Links -->
   <div class="section">
