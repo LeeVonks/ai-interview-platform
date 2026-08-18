@@ -507,8 +507,10 @@ class AudioWebSocketMiddleware
           next if state.session.reload.ended?
 
           Rails.logger.info("[AudioWS] Grace period expired — ending session #{state.session.id}")
-          Sessions::EndHandler.new(state.session).call(reason: 'error')
+          reason = state.session.transcript_turns.exists? ? 'manual_candidate' : 'error'
+          Sessions::EndHandler.new(state.session).call(reason: reason)
           EM.schedule { state.gemini_client&.close }
+
         end
       rescue StandardError => e
         Rails.logger.error("[AudioWS] Thread crashed (graceful end): #{e.class}: #{e.message}")

@@ -232,18 +232,35 @@ export default function InterviewPage() {
 
   // ── State F: Complete ───────────────────────────────────────────────────
   if (interviewState === "complete") {
+    const isError = candidateInfo?.end_reason === "error";
+
     return (
       <div className="max-w-xl mx-auto px-4 py-16 text-center space-y-4">
-        <div className="text-4xl">✅</div>
-        <h2 className="text-xl font-semibold">Interview Complete</h2>
-        <p className="text-sm text-muted-foreground">
-          Thank you. The interview has been recorded.
-          <br />
-          The hiring team will review your results and follow up with you.
-        </p>
+        {isError ? (
+          <div className="space-y-4">
+            <div className="text-4xl">⚠️</div>
+            <h2 className="text-xl font-bold text-rose-400">Session Error Encountered</h2>
+            <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
+              This interview session was interrupted by a network connection timeout before audio transcript turns could be recorded.
+              <br />
+              Please contact your hiring manager or request a new interview link.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="text-4xl">✅</div>
+            <h2 className="text-xl font-bold text-emerald-400">Interview Complete</h2>
+            <p className="text-xs text-slate-300 leading-relaxed max-w-md mx-auto">
+              Thank you. Your interview session has been recorded and submitted successfully.
+              <br />
+              The hiring team will review your evaluation results and follow up with you shortly.
+            </p>
+          </div>
+        )}
       </div>
     );
   }
+
 
   // ── States B/C/D/E: Active interview ────────────────────────────────────
   const aiSpeaking = speaker === "ai";
