@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { assessmentsApi } from "@/services/assessments";
 import { LEVEL_LABELS } from "@/utils/constants";
-import { ArrowLeft, Copy, Check, Eye, Pencil, Clock, Plus, UserRound } from "lucide-react";
+import { ArrowLeft, Copy, Check, Eye, Pencil, Clock, Plus, UserRound, Mail } from "lucide-react";
 import type { Assessment, Session } from "@/types";
 
 function SessionRow({
@@ -40,18 +40,25 @@ function SessionRow({
   return (
     <div className="flex items-center justify-between py-3 px-4">
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center w-7 h-7 rounded-full bg-muted text-xs font-medium text-muted-foreground">
+        <div className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300">
           {index}
         </div>
         <div className="space-y-0.5">
-          <div className="text-sm font-medium">{displayName}</div>
-          {session.started_at && (
-            <div className="text-xs text-muted-foreground">
-              {new Date(session.started_at).toLocaleDateString()}
-            </div>
-          )}
+          <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">{displayName}</div>
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            {session.candidate_email && (
+              <span className="flex items-center font-mono">
+                <Mail className="h-3 w-3 mr-1 text-slate-400" />
+                {session.candidate_email}
+              </span>
+            )}
+            {session.started_at && (
+              <span>· {new Date(session.started_at).toLocaleDateString()}</span>
+            )}
+          </div>
         </div>
       </div>
+
 
       <div className="flex items-center gap-3">
         {isPending && (
@@ -132,6 +139,8 @@ export default function AssessmentInvitePage() {
   const [newSessionCopied, setNewSessionCopied] = useState(false);
   const [showInviteDialog, setShowInviteDialog] = useState(false);
   const [candidateNameInput, setCandidateNameInput] = useState("");
+  const [candidateEmailInput, setCandidateEmailInput] = useState("");
+  const [inviteError, setInviteError] = useState<string | null>(null);
 
   const loadSessions = useCallback(async () => {
     const res = await assessmentsApi.getSessions(Number(id));
@@ -158,18 +167,40 @@ export default function AssessmentInvitePage() {
 
   const openInviteDialog = () => {
     setCandidateNameInput("");
+    setCandidateEmailInput("");
+    setInviteError(null);
     setShowInviteDialog(true);
   };
 
   const handleInviteCandidate = async () => {
+    const name = candidateNameInput.trim();
+    const email = candidateEmailInput.trim();
+
+    if (!name) {
+      setInviteError("Nama kandidat wajib diisi.");
+      return;
+    }
+    if (!email) {
+      setInviteError("Email kandidat wajib diisi.");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setInviteError("Format email kandidat tidak valid.");
+      return;
+    }
+
     setCreatingSession(true);
-    setShowInviteDialog(false);
+    setInviteError(null);
     setNewSession(null);
     try {
-      const res = await assessmentsApi.createSession(Number(id), candidateNameInput.trim() || undefined);
+      const res = await assessmentsApi.createSession(Number(id), name, email);
       const created = res.data.session;
       setNewSession(created);
       setSessions((prev) => [created, ...prev]);
+      setShowInviteDialog(false);
+    } catch (err: any) {
+      const msg = err.response?.data?.error || err.message || "Gagal membuat sesi undang kandidat.";
+      setInviteError(msg);
     } finally {
       setCreatingSession(false);
     }
@@ -229,28 +260,64 @@ export default function AssessmentInvitePage() {
 
       {/* Invite candidate dialog */}
       <Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
-        <DialogContent className="sm:max-w-sm">
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Invite Candidate</DialogTitle>
+            <DialogTitle className="text-base font-semibold">Undang Kandidat Asesmen</DialogTitle>
           </DialogHeader>
-          <div className="space-y-2 py-2">
-            <Label htmlFor="candidate-name">Candidate name</Label>
-            <Input
-              id="candidate-name"
-              placeholder="e.g. Budi Santoso"
-              value={candidateNameInput}
-              onChange={(e) => setCandidateNameInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleInviteCandidate()}
-              autoFocus
-            />
-            <p className="text-xs text-muted-foreground">Optional — helps you identify this session later.</p>
+          <div className="space-y-4 py-2">
+            {inviteError && (
+              <div className="p-3 text-xs font-medium text-rose-700 bg-rose-50 dark:bg-rose-950/60 dark:text-rose-300 rounded-md border border-rose-200 dark:border-rose-800">
+                {inviteError}
+              </div>
+            )}
+            <div className="space-y-1.5">
+              <Label htmlFor="candidate-name" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Nama Lengkap Kandidat <span className="text-rose-500">*</span>
+              </Label>
+              <Input
+                id="candidate-name"
+                placeholder="Contoh: Budi Santoso"
+                value={candidateNameInput}
+                onChange={(e) => {
+                  setCandidateNameInput(e.target.value);
+                  if (inviteError) setInviteError(null);
+                }}
+                autoFocus
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="candidate-email" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Email Kandidat <span className="text-rose-500">*</span>
+              </Label>
+              <Input
+                id="candidate-email"
+                type="email"
+                placeholder="Contoh: budi.santoso@example.com"
+                value={candidateEmailInput}
+                onChange={(e) => {
+                  setCandidateEmailInput(e.target.value);
+                  if (inviteError) setInviteError(null);
+                }}
+                onKeyDown={(e) => e.key === "Enter" && handleInviteCandidate()}
+              />
+              <p className="text-[11px] text-muted-foreground">
+                Nama & email kandidat akan tersimpan untuk memudahkan proses seleksi dan rekap evaluasi portofolio.
+              </p>
+            </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowInviteDialog(false)}>Cancel</Button>
-            <Button onClick={handleInviteCandidate}>Create Link</Button>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setShowInviteDialog(false)}>Batal</Button>
+            <Button
+              onClick={handleInviteCandidate}
+              disabled={creatingSession || !candidateNameInput.trim() || !candidateEmailInput.trim()}
+              className="bg-teal-600 hover:bg-teal-700 text-white"
+            >
+              {creatingSession ? "Membuat..." : "Buat Link Undangan"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
 
       {/* Newly created session invite link */}
       {newSession && (

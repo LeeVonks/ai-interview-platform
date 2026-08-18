@@ -23,10 +23,12 @@ module Api
         assessment = Assessment.find(params[:assessment_id])
 
         session = assessment.sessions.new(
-          candidate_id:   params.dig(:session, :candidate_id),
-          candidate_name: params.dig(:session, :candidate_name).presence,
-          tenant_id:      current_tenant_id
+          candidate_id:    params.dig(:session, :candidate_id),
+          candidate_name:  params.dig(:session, :candidate_name).presence,
+          candidate_email: params.dig(:session, :candidate_email).presence,
+          tenant_id:       current_tenant_id
         )
+
 
         if session.save
           json_response(
@@ -170,7 +172,9 @@ module Api
           tenant_id:        session.tenant_id,
           candidate_id:     session.candidate_id,
           candidate_name:   session.candidate_name,
+          candidate_email:  session.candidate_email,
           invite_token:     session.invite_token,
+
           invite_url:       session.invite_url,
           status:           session.status,
           end_reason:       session.end_reason,
