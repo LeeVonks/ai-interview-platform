@@ -347,44 +347,48 @@ export default function InterviewPage() {
 
         <div className="flex items-center gap-2.5">
           <Button
-            variant={micMuted ? "destructive" : "outline"}
             size="sm"
             onClick={toggleMic}
-            className={micMuted ? "bg-rose-600 text-white border-rose-500" : "bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800"}
+            className={
+              micMuted
+                ? "bg-rose-950/80 text-rose-300 border border-rose-500/50 hover:bg-rose-900/80 font-semibold shadow-sm"
+                : "bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-900/80 font-semibold shadow-sm"
+            }
           >
             {micMuted ? (
-              <><MicOff className="h-3.5 w-3.5 mr-1.5" /> Muted</>
+              <><MicOff className="h-3.5 w-3.5 mr-1.5 text-rose-400" /> Muted</>
             ) : (
-              <><Mic className="h-3.5 w-3.5 mr-1.5" /> Mic On</>
+              <><span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5" /> Mic On</>
             )}
           </Button>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" size="sm" className="bg-slate-900 border-slate-700 text-slate-200 hover:bg-rose-950/60 hover:text-rose-300 hover:border-rose-500/40">
+              <Button size="sm" className="bg-slate-900 border border-slate-700 text-slate-100 font-semibold hover:bg-rose-950/80 hover:text-rose-300 hover:border-rose-500/50 shadow-sm">
                 End Interview
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="bg-slate-900 border-slate-800 text-slate-100">
+            <AlertDialogContent className="bg-slate-900 border border-slate-800 text-slate-100">
               <AlertDialogHeader>
                 <AlertDialogTitle className="text-white">End interview early?</AlertDialogTitle>
-                <AlertDialogDescription className="text-slate-400">
+                <AlertDialogDescription className="text-slate-300">
                   Are you sure you want to complete and submit your interview session now?
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700">Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={endInterview} className="bg-rose-600 hover:bg-rose-500 text-white">End interview</AlertDialogAction>
+                <AlertDialogCancel className="bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700 font-semibold">Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={endInterview} className="bg-rose-600 hover:bg-rose-500 text-white font-semibold">End interview</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
           {import.meta.env.DEV && (
-            <Button variant="outline" size="sm" className="text-xs bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-slate-200 opacity-60"
+            <Button size="sm" className="text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-slate-100 opacity-75 font-semibold"
               onClick={() => sendJson({ type: "debug_force_reconnect" })}>
               ⚡ Force reconnect
             </Button>
           )}
         </div>
+
       </div>
 
 
